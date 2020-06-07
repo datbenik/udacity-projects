@@ -17,7 +17,7 @@
  * Define Global Variables
  * 
 */
-const sectionList = document.querySelector('body').getElementsByTagName('section');
+
 
 /**
  * End Global Variables
@@ -54,9 +54,14 @@ function isElementVisible(el) {
 
 // Build the nav
 function _buildNav() {
+	const sectionList = document.querySelector('body').getElementsByTagName('section');
 	const nav = document.querySelector('#navbar__list');
+
+	// Hide nav bar while changing the element to increase perform
+	nav.style.display = "none";
+	
+	// Add list item for each section
 	for (const section of sectionList) {
-		// Add list item for each section
 		const newItem = document.createElement('li'); 
 		newItem.setAttribute('class', 'menu__link');
 		newItem.setAttribute('goto', section.id);
@@ -66,10 +71,14 @@ function _buildNav() {
 		// Add item to the dom
 		nav.appendChild(newItem);
 	}
+	
+	// Show the nav bar if all changes are done
+	nav.style.display = "block";
 }
 
 // Add class 'active' to section when near top of viewport
 function _makeSectionActive() { 
+	const sectionList = document.querySelector('body').getElementsByTagName('section');
 	for (const section of sectionList) {
 		const elementClasses = section.classList;
 		if (isElementVisible(section)) {
@@ -98,5 +107,3 @@ document.addEventListener('DOMContentLoaded', _buildNav);
 
 // Set active section
 document.addEventListener('scroll', _makeSectionActive);
-
-
