@@ -112,7 +112,7 @@ section {
 /* ---- Theme Rules ---- */
 /* Landing Container Styles */
 .landing__container {
-    padding: 1em;
+    padding: 4em 1em 1em 1em;
     text-align: left;
 }
 
