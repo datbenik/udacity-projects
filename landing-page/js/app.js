@@ -37,12 +37,10 @@ function isElementVisible(el) {
 		rect.top  > vHeight)
         return false;
 		
-	// Return true if close to the top of the viewport
+	// Return true if visible in the viewport
     return (
-        rect.top   >= -100 && 
-		rect.top   <= 120 &&
-        rect.left  >= 0 &&
-        rect.right <= vWidth
+        rect.top   >= 0  || 
+		rect.bottom >= 0
     );
 }		
 
