@@ -81,10 +81,25 @@ function _makeSectionActive() {
 		const elementClasses = section.classList;
 		if (isElementVisible(section)) {
 			elementClasses.add('your-active-class');
+			_makeRelatedMenuLinkActive(section.id);
 		} else {
 			elementClasses.remove('your-active-class');
 		}
 	}
+}
+
+function _makeRelatedMenuLinkActive(goto) {
+	const menuLinkList = document.querySelector('body').getElementsByClassName('menu__link');
+	for (const menuLink of menuLinkList) {
+		const elementClasses = menuLink.classList;
+		if (menuLink.getAttribute('goto') === goto) {
+			elementClasses.add('your-active-class');
+		} else {
+			elementClasses.remove('your-active-class');
+		}
+		
+	}
+
 }
 
 // Scroll to anchor ID using scrollIntoView event
