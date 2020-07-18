@@ -9,8 +9,14 @@ function checkForName(inputText) {
     ]
 
     if(names.includes(inputText)) {
-        alert("Welcome, Captain!")
+        return "Welcome, Captain!"
     }
 }
 
-export { checkForName }
+function checkSubject(inputText) {
+    console.log("::: Running checkSubject :::", inputText);
+    
+    
+}
+
+export { checkForName, checkSubject }
