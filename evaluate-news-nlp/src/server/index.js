@@ -3,30 +3,17 @@ const express = require('express')
 const mockAPIResponse = require('./mockAPI.js')
 
 const cors = require('cors');
-
 const bodyParser = require('body-parser')
-
-var aylien = require("aylien-news-api");
-var opts = {}
-
-var defaultClient = AylienNewsApi.ApiClient.instance;
-
-var app_id = defaultClient.authentications["app_id"];
-app_id.apiKey = process.env["APP_ID"];
-
-var app_key = defaultClient.authentications["app_key"];
-app_key.apiKey = process.env["APP_KEY"];
-
-
-
 
 const dotenv = require('dotenv');
 dotenv.config();
 
-console.log(`Your API id is ${process.env.API_ID}`);
-console.log(`Your API key is ${process.env.API_KEY}`);
+const fetch = require("node-fetch");
 
-var textapi = new AylienNewsApi.DefaultApi();
+// Aylien news api
+const baseURL = 'https://api.aylien.com/news/stories?language=en&text=';
+const app_id = process.env["API_ID"];
+const app_key = process.env["API_KEY"];
 
 const app = express()
 
@@ -50,29 +37,35 @@ app.get('/test', function (req, res) {
     res.send(mockAPIResponse)
 })
 
-var callback = function(error, data, response) {
-  if (error) {
-    console.error(error);
-  } else {
-    console.log("API called successfully. Returned data: ");
-    console.log("========================================");
-    for (var i = 0; i < data.stories.length; i++) {
-      console.log(data.stories[i].title + " / " + data.stories[i].source.name);
-    }
-//	res.send(response)
-  }
-};
-
-
-app.post('/analyseUrl', function (req, res) {
-	console.log("Analysing url: ", req.body.text);
-	opts.title = req.body.text;
-	api.listStories(opts, callback);
-
+app.post('/getNews', function (req, res) {
+	console.log("Get news stories with search argument: ", req.body.text);
+    getData(req.body.text)
+	.then(function(data) {
+		res.send(data);
+	})
+	.catch(function(reason) {
+		console.log(`error in server getting news ${reason}`); 
+	});
 })
 
 
-
+const getData = async (text) => {
+  const res = await fetch(baseURL+text, {
+        method: 'GET', 
+        mode: 'cors', 
+        headers: { 
+            'X-AYLIEN-NewsAPI-Application-ID': process.env["API_ID"], 
+            'X-AYLIEN-NewsAPI-Application-Key': process.env["API_KEY"]
+		}
+  });
+  try {
+    const data = await res.json();
+    console.log(data)
+    return data;
+  } catch(error) {
+    console.log(`error in server when calling news api ${error}`);
+  }
+}
 
 
 

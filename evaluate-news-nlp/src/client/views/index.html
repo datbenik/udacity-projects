@@ -14,7 +14,7 @@
 
         <header>
             <div class="">
-                Logo
+                Logo very important website
             </div>
             <div class="">
                 navigation
@@ -22,28 +22,65 @@
         </header>
 
         <main>
-            <section>
-                <form class="" onsubmit="return Client.handleSubmit(event)">
-                    <input id="name" type="text" name="input" value="" placeholder="Name">
-                    <input type="submit" name="" value="submit" onclick="return Client.handleSubmit(event)" onsubmit="return Client.handleSubmit(event)">
-                </form>
-            <section>
-
-            <section>
-                <strong>Form Results:</strong>
-                <div id="resultsName"></div>
-            </section>
-			
+			<section>
+				<h1>Search for news items</h1>
+				<p>We use the Aylien api to get news items with the search object in title and/or body. Please try! </p>
+			</section>
+		
 			<section>
                 <form class="" onsubmit="return Client.handleNewsSubmit(event)">
+					<div id="message"></div>
                     <input id="subject" type="text" name="input" value="" placeholder="Subject">
                     <input type="submit" name="" value="submit" onclick="return Client.handleNewsSubmit(event)" onsubmit="return Client.handleNewsSubmit(event)">
                 </form>
-            <section>
+            </section>
 
-            <section>
-                <strong>News:</strong>
-                <div id="resultsNews"></div>
+            <section class="resultsNews">
+                <h1>News items</h1>
+				<div>
+					<div class="story">
+						<h2 id="title0"></h2>
+						<div class="author" id="author0"></div>
+                        <div id="summary0"></div>
+						<div id="blog0"></div>
+					</div>
+					</br>
+					<div class="story">
+						<h2 id="title1"></h2>
+						<div class="author" id="author1"></div>
+                        <div id="summary1"></div>
+						<div id="blog1"></div>
+					</div>
+					</br>
+					<div class="story">
+						<h2 id="title2"></h2>
+						<div class="author" id="author2"></div>
+                        <div id="summary2"></div>
+						<div id="blog2"></div>
+					</div>
+					</br>
+					<div class="story">
+						<h2 id="title3"></h2>
+						<div class="author" id="author3"></div>
+                        <div id="summary3"></div>
+						<div id="blog3"></div>
+					</div>
+					</br>
+					<div class="story">
+						<h2 id="title4"></h2>
+						<div class="author" id="author4"></div>
+                        <div id="summary4"></div>
+						<div id="blog4"></div>
+					</div>
+					</br>
+					<div class="story">
+						<h2 id="title5"></h2>
+						<div class="author" id="author5"></div>
+                        <div id="summary5"></div>
+						<div id="blog5"></div>
+					</div>
+				</div>
+				
             </section>
         </main>
 
@@ -52,7 +89,6 @@
         </footer>
 	
 		<script type="text/javascript" src="../../dist/main.js"></script>
-		
 
     </body>
 </html>

@@ -11,4 +11,23 @@ main {
 section {
     max-width: 800px;
     margin: 50px auto;
+	font-size: 1em;
+}
+
+h1 {
+	font-size: 2em;
+    margin: 1em 0;
+}
+
+h2 {
+	font-size: 1.2em;
+	text-decoration: underline;
+}
+
+.author {
+	font-style: italic;
+}
+
+#message {
+	color: red;
 }
