@@ -1,83 +1,80 @@
 /* Global Variables */
-let baseUrl = 'http://localhost:8081'
+let baseUrl = 'http://localhost:8081';
 
-// Personal API Key for OpenWeatherMap API
-const apiKey = '&appid=bba0d36172788e3db5ccff50ea894c58';	
-const weatherUrl = 'https://api.openweathermap.org/data/2.5/weather?zip=';
-
-// Create a new date instance dynamically with JS
-let d = new Date();
-let newDate = (d.getMonth() + 1) + '.' + d.getDate() + '.' + d.getFullYear();
-
+// Attributes of destination
+let travelAttributes = {};
 
 /* Function called by event listener */
 export const performAction = async () => {
-	const userResponse =  document.getElementById('feelings').value;
-	const zipCode =  document.getElementById('zip').value;
-	getWeather(zipCode)
+	const destination =  document.getElementById('destination').value;
+	const travelDate = document.getElementById('travelDate').value;
+	// TODO add validation of date and destination
+	travelAttributes.destination = destination;
+	travelAttributes.travelDate =  travelDate;
+	getGeonames(destination)
 	.then(function(data) {
-		postData({
-			temperature: `${data.main.temp}`,
-			place: `${data.name}`,
-			date: newDate,
-			userResponse: userResponse
+		travelAttributes.countryName = data.countryName;
+		travelAttributes.destination = data.name;  
+		travelAttributes.population = data.population;
+		getWeather(data.lat, data.lng, travelDate)
+		.then(function(data) {
+			console.log("client back from weather app");
+			travelAttributes.temp = data.data.temp;
+			travelAttributes.description = data.data.description;
+			updateUI(data);  
+		})
+		.catch(function(reason) {
+			console.log(`error in performAction 1 ${reason}`);
+			displayError(reason); 
 		})
 	})
-	.then(function(data) {
-		updateUI();  
-	})
 	.catch(function(reason) {
+		console.log(`error in performAction 2 ${reason}`);
 		displayError(reason); 
 	})
 }
 
-/* Function to GET Web API Data*/
-const getWeather = async (zipCode) => {
-  const res = await fetch(weatherUrl+zipCode+apiKey);
+/* Function to GET Geonames */
+const getGeonames = async (destination) => {
+  console.log('client getGeonames');	
+  const response = await fetch(baseUrl+'/getGeonames?destination='+destination, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },      
+    });
   try {
-    const data = await res.json();
+    const data = await response.json();
+	console.log('response of getGeonames', data);
+    return data;
+  } catch(error) {
+    console.log(`error after getGeonames ${error}`);
+  }
+}
+
+/* Function to GET Weather */
+const getWeather = async (latitude, longitude, travelDate) => {
+  console.log('client getWeather');	
+  const response = await fetch(baseUrl+'/getWeather?latitude='+latitude+'&longitude='+longitude+'&date='+travelDate, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },      
+    });
+  try {
+    const data = await response.json();
+	console.log('response of getWeather', data);
     return data;
   } catch(error) {
     console.log(`error after getWeather ${error}`);
   }
 }
 
-/* Function to POST data */
-const postData = async ( data = {})=>{
-    const response = await fetch(baseUrl+'/addData', {
-      method: 'POST',
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),         
-    });
-    try {
-      const newData = await response.json();
-      return newData
-    } catch(error) {
-      console.log(`error after post ${error}`);
-    }
-}
-
 /* Update UI */
-const updateUI = async () => {
-  const request = await fetch(baseUrl+'/all');
-  try{
-    const allData = await request.json();
-	const last = allData.length - 1;
-    document.getElementById('date').innerHTML = allData[last].date;
-	document.getElementById('place').innerHTML = allData[last].place;
-    document.getElementById('temp').innerHTML = allData[last].temperature;
-    document.getElementById('content').innerHTML = allData[last].userResponse;
-  } catch(error) {
-	console.log(`error when updating UI ${error}`);
-  }
+function updateUI(data) {
+	document.getElementById('content').innerHTML = `On ${travelAttributes.travelDate} the weather in ${travelAttributes.destination} (${travelAttributes.countryName}) is expected to be "${travelAttributes.description}" with a temperature around ${travelAttributes.temp} degrees.`;
 }
 
-function displayError() {
-	document.getElementById('date').innerHTML = '';
-	document.getElementById('place').innerHTML = '';
-    document.getElementById('temp').innerHTML = '';
-    document.getElementById('content').innerHTML = 'An error occurred, please contact your administrator';
+function displayError(reason) {
+    document.getElementById('content').innerHTML = `An error occurred, please contact your administrator (reason ${reason})`;
 }
