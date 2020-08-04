@@ -5,10 +5,25 @@ let result;
 // Attributes of destination
 let travelAttributes = {};
 
+// Calculating time until departure
+const timeUntilDeparture = (date) => {
+    const total = Date.parse(date) - Date.parse(new Date());
+    const days = Math.floor(total / (1000 * 60 * 60 * 24));
+    return days;
+  };
+  
+// Calculating duration
+const durationOfTrip = (onDate, toDate) => {
+    const total = Date.parse(toDate) - Date.parse(onDate);
+    const days = Math.floor(total / (1000 * 60 * 60 * 24));
+    return days;
+  };
+
 /* Function called by event listener */
 export const performAction = async () => {
 	const destination =  document.getElementById('destination').value;
 	const travelDate = document.getElementById('travelDate').value;
+	const returnDate = document.getElementById('returnDate').value;
     // check destination
     result = Client.checkDestination(destination);
 	if (result != null) {
@@ -17,8 +32,16 @@ export const performAction = async () => {
 	} else {
 		document.getElementById('message').innerHTML = ''
 	}
-    // check date
-    result = Client.checkDate(travelDate);
+    // check travel date
+    result = Client.checkTravelDate(travelDate);
+	if (result != null) {
+		document.getElementById('message').innerHTML = result
+		return
+	} else {
+		document.getElementById('message').innerHTML = ''
+	}
+	// check return date
+    result = Client.checkReturnDate(travelDate, returnDate);
 	if (result != null) {
 		document.getElementById('message').innerHTML = result
 		return
@@ -26,7 +49,8 @@ export const performAction = async () => {
 		document.getElementById('message').innerHTML = ''
 	}
 	travelAttributes.destination = destination;
-	travelAttributes.travelDate =  travelDate;
+	travelAttributes.travelDate = travelDate;
+	travelAttributes.returnDate = returnDate;
 	getGeonames(encodeURI(destination))
 	.then(function(data) {
 		travelAttributes.countryName = data.countryName;
@@ -38,7 +62,7 @@ export const performAction = async () => {
 			travelAttributes.temp = data.temp;
 			travelAttributes.description = data.description;
 			
-			getImage(encodeURI(destination))
+			getImage(encodeURI(travelAttributes.destination))
 			.then(function(data) {
 				console.log("client back from image api");
 				travelAttributes.imageUrl = data.imageUrl;
@@ -121,6 +145,10 @@ function updateUI(data) {
 	document.getElementById('dest').innerHTML = `${travelAttributes.destination} (${travelAttributes.countryName})`;
 	document.getElementById('weather').innerHTML = travelAttributes.description;
 	document.getElementById('temp').innerHTML = travelAttributes.temp;
+	document.getElementById('days').innerHTML = timeUntilDeparture(travelAttributes.travelDate);
+	if (travelAttributes.returnDate) {
+		document.getElementById('duration').innerHTML = ` and will take ${durationOfTrip(travelAttributes.travelDate,travelAttributes.returnDate)} days`;
+	}
 	document.getElementById('img').src = travelAttributes.imageUrl;
 	document.getElementById('result').style.display = 'block';
 	

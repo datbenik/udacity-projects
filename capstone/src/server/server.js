@@ -161,7 +161,14 @@ const getDataPixabay = async (destination) => {
 	try {
 		const data = await res.json();
 		console.log(data);
-		return ({imageUrl: data.hits[0].webformatURL});
+		if (data.hits.length > 0) {
+			return ({imageUrl: data.hits[0].webformatURL});
+		}
+		else {
+			return ({imageUrl: 'https://pixabay.com/get/5ee2d54b4e54b10ff3d8992cc62f3078133fd6e74e507440732a7fd7904ec2_640.jpg'});
+		}
+		
+		
 	} catch(error) {
 		console.log(`error in server when calling pixabay api ${error}`);
 	}

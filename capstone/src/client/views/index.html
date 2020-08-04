@@ -19,7 +19,7 @@
 		  <p class="highlight-bold">Your trip to: <span id="dest"></span></p>
 		  <p class="highlight-bold">Departing on: <span id="date"></span></p>
 		  </br>
-		  <p>Your trip is xxx days away.</p>
+		  <p>Your trip is <span id="days"></span> days away<span id="duration"></span>.</p>
 		  <p>The weather will be "<span id="weather"></span>". The temperature is expected to be around <span id="temp"></span> degrees.</p>
 		</div>	
 	  </div>
@@ -29,6 +29,8 @@
 	  <input type="text" id="destination" placeholder="enter destination here">
 	  <label for="travelDate">When will you leave?</label>
 	  <input type="text" id="travelDate" placeholder="yyyy-mm-dd"></textarea>
+	  <label for="returnDate">When will you come back?</label>
+	  <input type="text" id="returnDate" placeholder="yyyy-mm-dd"></textarea>
 	  <div id="message"></div>
 	  </br>
 	  <button id="generate" type = "submit"> Search </button>
