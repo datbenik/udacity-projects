@@ -10,17 +10,20 @@
     <div class ="holder headline">
 	 <h1>Travel planner</h1>
     </div>
-    <div class ="holder destination">
+	<div class ="holder destination">
 	  <label for="destination">Where will you go?</label>
 	  <input type="text" id="destination" placeholder="enter destination here">
 	  <label for="travelDate">When will you leave?</label>
 	  <input type="text" id="travelDate" placeholder="yyyy-mm-dd"></textarea>
 	  <button id="generate" type = "submit"> Search </button>
     </div>
-    <div class ="holder entry">
-	  <div class = "title">Information of destination</div>
-	  <div id = "entryHolder">
-	    <div id = "content"></div>	
+	<div class ="holder result">
+	  <div id = "result">
+	    <h2>Information of your planned trip</h2>
+        <img src="" id="img">
+        <p>On <span id="date"></span> the weather in <span id="dest"></span> will be <span id="weather"></span>.</p>
+        <p>The temperature is expected to be around <span id="temp"></span> degrees.</p>
+		</br>
 	  </div>
     </div>
   </div>

@@ -72,7 +72,12 @@ const getWeather = async (latitude, longitude, travelDate) => {
 
 /* Update UI */
 function updateUI(data) {
-	document.getElementById('content').innerHTML = `On ${travelAttributes.travelDate} the weather in ${travelAttributes.destination} (${travelAttributes.countryName}) is expected to be "${travelAttributes.description}" with a temperature around ${travelAttributes.temp} degrees.`;
+	document.getElementById('date').innerHTML = travelAttributes.travelDate;
+	document.getElementById('dest').innerHTML = `${travelAttributes.destination} (${travelAttributes.countryName})`;
+	document.getElementById('weather').innerHTML = travelAttributes.description;
+	document.getElementById('temp').innerHTML = travelAttributes.temp;
+	document.getElementById('result').style.display = 'block';
+	
 }
 
 function displayError(reason) {
