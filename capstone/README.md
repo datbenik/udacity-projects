@@ -1,10 +1,22 @@
-# Weather-Journal App Project
+# Website to search information about travel destination
 
 ## Overview
-This project requires you to create an asynchronous web app that uses Web API and user data to dynamically update the UI. 
+This project gives the weather forecast on a certain travel date. It uses api's from geonames, weatherbit and pixabay.
 
 ## Instructions
-This will require modifying the `server.js` file and the `website/app.js` file. You can see `index.html` for element references, and once you are finished with the project steps, you can use `style.css` to style your application to customized perfection.
+This project can be installed via npm install.
 
-## Extras
-If you are interested in testing your code as you go, you can use `tests.js` as a template for writing and running some basic tests for your code.
+## Run project
+You can start the module via the following commands:
+
+### terminal 1
+` $ npm run build-prod`
+
+` $ npm run start`
+
+This will start the server listening to port 8081.
+
+### terminal 2
+` $ npm run build-dev`
+
+This will load the web page on port 8080.

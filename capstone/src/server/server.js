@@ -18,6 +18,10 @@ const urlWeatherbitCurrent = 'http://api.weatherbit.io/v2.0/current?';
 const urlWeatherbitForecast = 'http://api.weatherbit.io/v2.0/forecast/daily?';
 const keyWeatherbit = process.env["KEY_WEATHERBIT"];
 
+// Pixabay api
+const urlPixabay = 'https://pixabay.com/api/?';
+const keyPixabay = process.env["KEY_PIXABAY"];
+
 // Start up an instance of app
 const app = express();
 
@@ -100,10 +104,10 @@ const getDataWeatherCurrent = async (latitude, longitude) => {
     try {
 		const data = await res.json();
 		console.log(data);
-		return ({data: {
-					temp: data.data[0].temp,
-					description: data.data[0].weather.description,
-				}});
+		return ({
+				temp: data.data[0].temp,
+				description: data.data[0].weather.description,
+				});
 	} catch(error) {
 		console.log(`error in server when calling weather current api ${error}`);
 	}
@@ -128,12 +132,38 @@ const getDataWeatherForecast = async (latitude, longitude, date) => {
 				break;
 			}
 		}
-		return ({data: {
-					temp: data.data[index].temp,
-					description: data.data[index].weather.description,
-				}});
+		return ({
+				temp: data.data[index].temp,
+				description: data.data[index].weather.description,
+				});
 	} catch(error) {
 		console.log(`error in server when calling weather forecast api ${error}`);
+	}
+}
+	
+// Get Images	
+app.get('/getImage', function (req, res) {
+	console.log("Get image with destination: ", req.query.destination);
+    getDataPixabay(req.query.destination)
+	.then(function(data) {
+		res.send(data);
+	})
+	.catch(function(reason) {
+		console.log(`error in server getting pixabay ${reason}`); 
+	});
+})
+
+const getDataPixabay = async (destination) => {
+	console.log('getDataPixabay in server');
+	const res = await fetch(`${urlPixabay}key=${keyPixabay}&q=${destination}&image_type=photo`, {
+        method: 'GET'
+	});
+	try {
+		const data = await res.json();
+		console.log(data);
+		return ({imageUrl: data.hits[0].webformatURL});
+	} catch(error) {
+		console.log(`error in server when calling pixabay api ${error}`);
 	}
 }
 	

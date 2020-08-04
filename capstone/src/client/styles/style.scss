@@ -1,54 +1,67 @@
 body{
     background: #ffffff;
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: sans-serif;
 }
 
 #app{
 	display: grid;
-    grid-auto-rows: minmax(150px, auto);
+    grid-auto-rows: minmax(20em, auto);
 	justify-content: center;
     grid-gap: 1em;
     height:90vh;
     color: #000000;
     font-size: 1em;
-    font-family: sans-serif;
-	grid-template-columns: 50em;
-	margin: 1em;
-
+	grid-template-columns: 60em;
 }
 
 .holder{
 	background: #ffe3e3;
+	padding: 1em;
+}
+
+
+.headline {
+	background: #ffffff;
+	text-align: center;
 }
 
 .text{
 	background: #ffe3e3;
 }
 
+
 #result{
     display: none;
 }
 
-#entryHolder{
-
+.trip {
+	display: flex;
+	justify-content: space-between;
 }
 
-#date{
-
+.trip-left {
+	display: flex;
+	float: left;
 }
 
-#temp{
 
+.trip-right {
+	float: right;
 }
 
-#content{
 
+#img {
+  width: 95%;
+  height: 250px;
 }
 
-.headline {
-	background: #ffffff;
+.highlight-bold {
+	font-weight: bold;
 }
-.title{
+
+#message {
+
+	color: red;
 
 }
 
@@ -81,7 +94,7 @@ h1{
 }
 
 h2{
-    font-size: 2em;
+    font-size: 1.5em;
 	font-weight: normal;
 	font-family: sans-serif;
 }
