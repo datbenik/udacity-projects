@@ -155,5 +155,5 @@ function updateUI(data) {
 }
 
 function displayError(reason) {
-    document.getElementById('content').innerHTML = `An error occurred, please contact your administrator (reason ${reason})`;
+    document.getElementById('message').innerHTML = `An error occurred, please contact your administrator (reason ${reason})`;
 }
