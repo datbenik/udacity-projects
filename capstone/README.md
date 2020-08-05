@@ -6,6 +6,15 @@ This project gives the weather forecast on a certain travel date. It uses api's 
 ## Instructions
 This project can be installed via npm install.
 
+### Dependencies
+`body-parser`
+`cors`
+`dotenv`
+`express`
+`node-fetch`
+`webpack`
+`webpack-cli`
+
 ## Run project
 You can start the module via the following commands:
 

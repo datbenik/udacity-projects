@@ -48,7 +48,6 @@ const server = app.listen(port, ()=>{
 	
 // Get Geonames 	
 app.get('/getGeonames', function (req, res) {
-	console.log("Get geonames with destination: ", req.query.destination);
     getDataGeonames(req.query.destination)
 	.then(function(data) {
 		res.send(data);
@@ -59,13 +58,11 @@ app.get('/getGeonames', function (req, res) {
 })
 
 const getDataGeonames = async (destination) => {
-	console.log('getDataGeonames in server');
 	const res = await fetch(`${urlGeonames}q=${destination}&maxRows=5&username=${useridGeonames}`, {
         method: 'GET'
 	});
 	try {
 		const data = await res.json();
-		console.log(data.geonames[0])
 		return data.geonames[0];
 	} catch(error) {
 		console.log(`error in server when calling geonames api ${error}`);
@@ -97,13 +94,11 @@ const getDataWeather = async (latitude, longitude, date) => {
 }
 
 const getDataWeatherCurrent = async (latitude, longitude) => {
-	console.log('getDataWeatherCurrent in server');
     const res = await fetch(`${urlWeatherbitCurrent}key=${keyWeatherbit}&lat=${latitude}&lon=${longitude}`, {
         method: 'GET'
     });
     try {
 		const data = await res.json();
-		console.log(data);
 		return ({
 				temp: data.data[0].temp,
 				description: data.data[0].weather.description,
@@ -114,13 +109,11 @@ const getDataWeatherCurrent = async (latitude, longitude) => {
 }
 
 const getDataWeatherForecast = async (latitude, longitude, date) => {
-	console.log('getDataWeatherForecast in server');
     const res = await fetch(`${urlWeatherbitForecast}key=${keyWeatherbit}&lat=${latitude}&lon=${longitude}`, {
         method: 'GET'
     });
     try {
 		const data = await res.json();
-		console.log(data);
 		// Determine the closest date in the response
 		let index = data.data.length - 1;
 		for (let i = index; i >= 0; i--) {
@@ -143,7 +136,6 @@ const getDataWeatherForecast = async (latitude, longitude, date) => {
 	
 // Get Images	
 app.get('/getImage', function (req, res) {
-	console.log("Get image with destination: ", req.query.destination);
     getDataPixabay(req.query.destination)
 	.then(function(data) {
 		res.send(data);
@@ -154,21 +146,18 @@ app.get('/getImage', function (req, res) {
 })
 
 const getDataPixabay = async (destination) => {
-	console.log('getDataPixabay in server');
 	const res = await fetch(`${urlPixabay}key=${keyPixabay}&q=${destination}&image_type=photo`, {
         method: 'GET'
 	});
 	try {
 		const data = await res.json();
-		console.log(data);
 		if (data.hits.length > 0) {
 			return ({imageUrl: data.hits[0].webformatURL});
 		}
 		else {
+			// Show default image when destination is not found
 			return ({imageUrl: 'https://pixabay.com/get/5ee2d54b4e54b10ff3d8992cc62f3078133fd6e74e507440732a7fd7904ec2_640.jpg'});
 		}
-		
-		
 	} catch(error) {
 		console.log(`error in server when calling pixabay api ${error}`);
 	}

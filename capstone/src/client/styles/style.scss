@@ -1,9 +1,9 @@
-body{
+body {
     background: #ffffff;
     font-family: sans-serif;
 }
 
-#app{
+#app {
 	display: grid;
     grid-auto-rows: minmax(20em, auto);
 	justify-content: center;
@@ -14,23 +14,21 @@ body{
 	grid-template-columns: 60em;
 }
 
-.holder{
+.holder {
 	background: #ffe3e3;
 	padding: 1em;
 }
-
 
 .headline {
 	background: #ffffff;
 	text-align: center;
 }
 
-.text{
+.text {
 	background: #ffe3e3;
 }
 
-
-#result{
+#result {
     display: none;
 }
 
@@ -44,11 +42,9 @@ body{
 	float: left;
 }
 
-
 .trip-right {
 	float: right;
 }
-
 
 #img {
   width: 95%;
@@ -60,18 +56,16 @@ body{
 }
 
 #message {
-
 	color: red;
-
 }
 
 /*  Basic Styling To Override Default For Basic HTML Elements */
-label{
+label {
     display:block;
     font-size: 1em;
 }
 
-input{
+input {
     display:block;
 	font-size: 1.5em;
     height: 1.5em;
@@ -80,31 +74,32 @@ input{
 	margin: 1em;
 }
 
-button{
+button {
 	display:block;
     font-size: 1.5em;
     font-family: sans-serif;
     border: none;
     box-shadow: 2px 4px 5px #444;
 }
-h1{
+
+h1 {
     font-size: 4em;
 	font-weight: normal;
 	font-family: sans-serif;
 }
 
-h2{
+h2 {
     font-size: 1.5em;
 	font-weight: normal;
 	font-family: sans-serif;
 }
 
-p{
+p {
     font-size: 1em;
 	font-family: sans-serif;
 }
 
-textarea{
+textarea {
     font-size: 1.5em;
     font-family: sans-serif;
 }
@@ -119,7 +114,6 @@ button:focus {
 ::placeholder { /* Firefox, Chrome, Opera */ 
 	font-style: italic;
 	font-family: sans-serif;
-	
 } 
   
 :-ms-input-placeholder { /* Internet Explorer 10-11 */ 

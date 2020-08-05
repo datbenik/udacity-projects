@@ -1,5 +1,4 @@
 function checkDestination(inputText) {
-    console.log("::: Running checkDestination:::", inputText);
 	
 	if (inputText == null || inputText === "") {
 		return "Please fill in your destination"
@@ -8,7 +7,6 @@ function checkDestination(inputText) {
 }
 
 function checkTravelDate(travelDate) {
-    console.log("::: Running checkTravelDate:::", travelDate);
 	
 	if (travelDate == null || travelDate === "") {
 		return "Please fill in your planned travel date"
@@ -23,7 +21,6 @@ function checkTravelDate(travelDate) {
 }
 
 function checkReturnDate(travelDate, returnDate) {
-    console.log("::: Running checkReturnDate:::", returnDate);
 	
 	if (returnDate == null || returnDate === "") {
 		return null

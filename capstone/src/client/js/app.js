@@ -58,36 +58,28 @@ export const performAction = async () => {
 		travelAttributes.population = data.population;
 		getWeather(data.lat, data.lng, travelDate)
 		.then(function(data) {
-			console.log("client back from weather api");
 			travelAttributes.temp = data.temp;
 			travelAttributes.description = data.description;
-			
 			getImage(encodeURI(travelAttributes.destination))
 			.then(function(data) {
-				console.log("client back from image api");
 				travelAttributes.imageUrl = data.imageUrl;
 				updateUI();  
 			})
 			.catch(function(reason) {
-				console.log(`error in performAction 1 ${reason}`);
 				displayError(reason); 
 			})
-			
 		})
 		.catch(function(reason) {
-			console.log(`error in performAction 2 ${reason}`);
 			displayError(reason); 
 		})
 	})
 	.catch(function(reason) {
-		console.log(`error in performAction 3 ${reason}`);
 		displayError(reason); 
 	})
 }
 
 /* Function to GET Geonames */
 const getGeonames = async (destination) => {
-  console.log('client getGeonames');	
   const response = await fetch(baseUrl+'/getGeonames?destination='+destination, {
       method: 'GET',
       headers: {
@@ -96,16 +88,14 @@ const getGeonames = async (destination) => {
     });
   try {
     const data = await response.json();
-	console.log('response of getGeonames', data);
     return data;
   } catch(error) {
-    console.log(`error after getGeonames ${error}`);
+    console.log('error after getGeonames', error);
   }
 }
 
 /* Function to GET Weather */
 const getWeather = async (latitude, longitude, travelDate) => {
-  console.log('client getWeather');	
   const response = await fetch(baseUrl+'/getWeather?latitude='+latitude+'&longitude='+longitude+'&date='+travelDate, {
       method: 'GET',
       headers: {
@@ -114,16 +104,14 @@ const getWeather = async (latitude, longitude, travelDate) => {
     });
   try {
     const data = await response.json();
-	console.log('response of getWeather', data);
     return data;
   } catch(error) {
-    console.log(`error after getWeather ${error}`);
+    console.log('error after getWeather', error);
   }
 }
 
 /* Function to GET Image */
-const getImage = async (destination) => {
-  console.log('client getImage');	
+const getImage = async (destination) => {	
   const response = await fetch(baseUrl+'/getImage?destination='+destination, {
       method: 'GET',
       headers: {
@@ -132,10 +120,9 @@ const getImage = async (destination) => {
     });
   try {
     const data = await response.json();
-	console.log('response of getImage', data);
     return data;
   } catch(error) {
-    console.log(`error after getImage${error}`);
+    console.log('error after getImage', error);
   }
 }
 
@@ -151,9 +138,9 @@ function updateUI(data) {
 	}
 	document.getElementById('img').src = travelAttributes.imageUrl;
 	document.getElementById('result').style.display = 'block';
-	
 }
 
 function displayError(reason) {
     document.getElementById('message').innerHTML = `An error occurred, please contact your administrator (reason ${reason})`;
+	document.getElementById('result').style.display = 'none';
 }
