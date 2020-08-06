@@ -162,4 +162,6 @@ const getDataPixabay = async (destination) => {
 		console.log(`error in server when calling pixabay api ${error}`);
 	}
 }
+
+module.exports = app
 	
