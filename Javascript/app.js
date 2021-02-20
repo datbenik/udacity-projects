@@ -192,6 +192,7 @@
 	})();
 	
     // Generate Tiles for each Dino in Array
+	
 	function generateTiles(human) {
 		let tiles = [];
 		
@@ -234,11 +235,10 @@
 	
 	
     // Add tiles to DOM
+	
 	function showInfographic(human) {
 		let tiles = generateTiles(human);
-		
-		console.log(tiles);
-		
+				
 		const grid = document.getElementById('grid');
 		
 		let gridHtml= "";
@@ -249,14 +249,14 @@
 		
 		// Remove form from screen
 		document.getElementById('dino-compare').style.display = 'none';
+		
+		// Add grid to screen
 		grid.style.display = 'flex';		
 
 	}	
 		
-
-   
-
 	// On button click, prepare and display infographic
+	
 	btn.addEventListener("click", () => {
 		try {
 			let human = new Human(humanData.getName(), humanData.getHeight(), humanData.getWeight(), humanData.getDiet());
