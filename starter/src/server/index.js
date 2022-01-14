@@ -12,17 +12,20 @@ app.use(bodyParser.json())
 
 app.use('/', express.static(path.join(__dirname, '../public')))
 
-// your API calls
-
-// example API call
-app.get('/apod', async (req, res) => {
+// API call to get photo's from Mars
+app.get('/getRover', async (req, res) => {
+    const rover = req.query.name.toLowerCase()
+    let earthDate = "2005-08-08";
+    if (rover === 'curiosity') {
+        earthDate = "2022-01-01";
+    }
     try {
-        let image = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${process.env.API_KEY}`)
+        let response = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/${rover}/photos?earth_date=${earthDate}&page=1&api_key=${process.env.API_KEY}`)
             .then(res => res.json())
-        res.send({ image })
+        res.send( response.photos )
     } catch (err) {
         console.log('error:', err);
     }
 })
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.listen(port, () => console.log(`Mars app listening on port ${port}!`))
