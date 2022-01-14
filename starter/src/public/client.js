@@ -1,8 +1,6 @@
 let store = Immutable.Map({
-    user: Immutable.Map({
-        name: 'Student'
-    }),
-    apod: Immutable.Map({}),
+    selectedRover: 'Curiosity',
+    photos: '',
     rovers: Immutable.List(['Curiosity', 'Opportunity', 'Spirit']),
 })
 
@@ -18,31 +16,31 @@ const render = async (root, state) => {
     root.innerHTML = App(state)
 }
 
-
 // create content
 const App = (state) => {
-    let rovers = state.get('rovers');
-    let apod = state.get('apod');
+    let selectedRover = state.get('selectedRover');
 
     return `
         <header></header>
         <main>
-            ${Greeting(store.get('user').get('name'))}
+            <h1>Mars Dashboard</h1>
             <section>
-                <h3>Put things on the page!</h3>
-                <p>Here is an example section.</p>
-                <p>
-                    One of the most popular websites at NASA is the Astronomy Picture of the Day. In fact, this website is one of
-                    the most popular websites across all federal agencies. It has the popular appeal of a Justin Bieber video.
-                    This endpoint structures the APOD imagery and associated metadata so that it can be repurposed for other
-                    applications. In addition, if the concept_tags parameter is set to True, then keywords derived from the image
-                    explanation are returned. These keywords could be used as auto-generated hashtags for twitter or instagram feeds;
-                    but generally help with discoverability of relevant imagery.
-                </p>
-                ${ImageOfTheDay(apod)}
+                <h3>Select rover</h3>
+                <select id="rover" onchange='selectRover()'>
+                  <option value="1">${state.get('rovers').get(0)}</option>
+                  <option value="2">${state.get('rovers').get(1)}</option>
+                  <option value="3">${state.get('rovers').get(2)}</option>
+                </select>
             </section>
+            ${selectedRover
+            ? ` <section>
+                    <h3>Information about rover ${selectedRover}</h3>
+                    ${getData(state)}
+                </section>
+`
+            : ``}
         </main>
-        <footer></footer>
+        <footer>This page was created for project Mars Dashboard - course Intermediate JavaScript Nanodegree Program at Udacity</footer>
     `
 }
 
@@ -53,59 +51,45 @@ window.addEventListener('load', () => {
 
 // ------------------------------------------------------  COMPONENTS
 
-// Pure function that renders conditional information -- THIS IS JUST AN EXAMPLE, you can delete it.
-const Greeting = (name) => {
-    if (name) {
-        return `
-            <h1>Welcome, ${name}!</h1>
-        `
+const selectRover = () => {
+    const e = document.getElementById("rover");
+    if (e && e.selectedIndex) {
+        const text = e.options[e.selectedIndex].text;
+        updateStore(store, Immutable.Map({selectedRover: text, photos: ''}))
     }
-
-    return `
-        <h1>Hello!</h1>
-    `
 }
 
-// Example of a pure function that renders infomation requested from the backend
-const ImageOfTheDay = (apod) => {
+const getData = (state) => {
+    let photos = state.get('photos');
 
-    // If image does not already exist, or it is not from today -- request it again
-    if (!apod || apod.size == 0) {
-        getImageOfTheDay(store)
+    if (photos === '') {
+        getRoverData(state);
     } else {
-        const today = new Date()
-        const photodate = new Date(apod.get('image').get('date'))
-        console.log(photodate.getDate(), today.getDate());
-        console.log(photodate.getDate() === today.getDate());
-        if (photodate.getDate() !== today.getDate() ) {
-            getImageOfTheDay(store)
-        }
+        const { name, landing_date, launch_date, status } = photos[0].rover;
+        const images = photos.map(photo => photo.img_src)
+        const photoDate = photos[0].earth_date
+
+        return (`
+        <p>Rover with name ${name} was launched at ${launch_date}. It landed on Mars on ${landing_date} and is currently ${status}.</p>
+        <p>Below you see photos taken from ${name} at ${photoDate}.</p>
+        <img src="${images[0]}" alt="Photo taken by rover on Mars" width="30%"/>
+        <img src="${images[1]}" alt="Photo taken by rover on Mars" width="30%"/>
+        <img src="${images[2]}" alt="Photo taken by rover on Mars" width="30%"/>
+    `)
     }
 
-    // check if the photo of the day is actually type video!
-    if (apod.get('media_type') === "video") {
-        return (`
-            <p>See today's featured video <a href="${apod.get('url')}">here</a></p>
-            <p>${apod.get('title')}</p>
-            <p>${apod.get('explanation')}</p>
-        `)
-    } else {
-        return (`
-            <img src="${apod.get('image').get('url')}" height="350px" width="100%" />
-            <p>${apod.get('image').get('explanation')}</p>
-        `)
-    }
+
 }
 
 // ------------------------------------------------------  API CALLS
 
-// Example API call
-const getImageOfTheDay = (state) => {
-    let apod = state.get('apod');
+// Get data of selected Rover
+const getRoverData = (state) => {
+    let selectedRover = state.get('selectedRover');
 
-    fetch(`http://localhost:3000/apod`)
+    fetch(`http://localhost:3000/getRover?name=${selectedRover}`)
         .then(res => res.json())
-        .then(apod => updateStore(store, { apod }))
+        .then(photos => updateStore(store, Immutable.Map({ photos: photos})))
 
-    return data
 }
+
